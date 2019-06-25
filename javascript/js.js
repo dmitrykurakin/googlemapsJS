@@ -28,13 +28,13 @@ function initMap() {
   place0.addEventListener('click', function(e){
     e.preventDefault();
     setMarker(map, 'A', initialPoint);
-  });
+  }, {once:true});
 
   var place1=document.getElementById('input1');
   place1.addEventListener('click', function(e){
     e.preventDefault();
     setMarker(map, 'B', initialPoint);
-  });
+  }, {once:true});
 
 }
 
