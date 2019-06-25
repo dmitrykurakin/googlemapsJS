@@ -1,7 +1,17 @@
 function initMap() {
+
+
+  var initialPoint = {lat: -24.345, lng: 134.46};
+
+
+  //'Perth, WA', 'Adelaide, SA'
+
+  var originPoint = 'Perth, WA';
+  var destinationPoint = 'Adelaide, SA';
+
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 4,
-    center: {lat: -24.345, lng: 134.46}  // Australia.
+    center: initialPoint  // Australia.
   });
 
   var directionsService = new google.maps.DirectionsService;
@@ -11,12 +21,44 @@ function initMap() {
     //panel: document.getElementById('right-panel')
   });
 
-  directionsDisplay.addListener('directions_changed', function() {
-    computeTotalDistance(directionsDisplay.getDirections());
+  checkThePointsAndShowTheRoute(originPoint, destinationPoint, directionsDisplay, directionsService);
+
+//set click event to input forms
+  var place0=document.getElementById('input0');
+  place0.addEventListener('click', function(e){
+    e.preventDefault();
+    setMarker(map, 'A', initialPoint);
   });
 
-  displayRoute('Perth, WA', 'Sydney, NSW', directionsService,
-      directionsDisplay);
+  var place1=document.getElementById('input1');
+  place1.addEventListener('click', function(e){
+    e.preventDefault();
+    setMarker(map, 'B', initialPoint);
+  });
+
+}
+
+function setMarker(map, label, position){
+  var marker = new google.maps.Marker({
+    position: position,
+    label: label,
+    draggable: true,
+    map: map
+  })
+}
+
+
+function checkThePointsAndShowTheRoute(originPoint, destinationPoint, directionsDisplay, directionsService){
+
+
+  if (typeof(originPoint && destinationPoint) != 'undefined'){
+    directionsDisplay.addListener('directions_changed', function() {
+      computeTotalDistance(directionsDisplay.getDirections());
+    });
+    displayRoute(originPoint, destinationPoint, directionsService,
+        directionsDisplay);
+  }
+  else console.log('no points');
 }
 
 function displayRoute(origin, destination, service, display) {

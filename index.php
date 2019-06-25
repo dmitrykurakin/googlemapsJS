@@ -75,9 +75,7 @@
            <div class="form-group col-7">
              <input type="email" id="email" placeholder="type your e-mail" class="form-control border border-success mb-2">
              <input type="text" id="mobile" placeholder="type your mobile" class="form-control border border-success mb-2">
-             <button type="button" class="btn btn-primary btn-block">Purchase</button> 
-
-
+             <button type="button" class="btn btn-primary btn-block">Purchase</button>
            </div>
 
           </div>
