@@ -9,6 +9,12 @@ function initMap() {
   var originPoint = 'Perth, WA';
   var destinationPoint = 'Adelaide, SA';
 
+  var markers = [];
+  var infowindow0 = new google.maps.InfoWindow();
+  var infowindow1 = new google.maps.InfoWindow();
+
+  var place2html = ['input0', 'input1'];
+
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 4,
     center: initialPoint  // Australia.
@@ -20,26 +26,67 @@ function initMap() {
     map: map,
     //panel: document.getElementById('right-panel')
   });
+  console.log('hi');
 
-  checkThePointsAndShowTheRoute(originPoint, destinationPoint, directionsDisplay, directionsService);
+  checkThePointsAndShowTheRoute(directionsDisplay, directionsService);
 
 //set click event to input forms
   var place0=document.getElementById('input0');
   place0.addEventListener('click', function(e){
     e.preventDefault();
-    setMarker(map, 'A', initialPoint);
-  }, {once:true});
+    setMarker(map, 'A', initialPoint, 0);
+    markers[0].addListener('dragend', function(){
+      reverceGeocode(0, infowindow0);
+      })
+  }, {once:true}
+  );
 
   var place1=document.getElementById('input1');
   place1.addEventListener('click', function(e){
     e.preventDefault();
-    setMarker(map, 'B', initialPoint);
+    setMarker(map, 'B', initialPoint, 1);
+    markers[1].addListener('dragend', function(){
+      reverceGeocode(1, infowindow1);
+      })
   }, {once:true});
 
 
-  //functions
 
-  function checkThePointsAndShowTheRoute(originPoint, destinationPoint, directionsDisplay, directionsService){
+
+  //functions
+  function reverceGeocode(id, infowindow){
+    var marker = markers[id];
+    infowindow.close();
+
+    var latlng = {
+      lat: markers[id].getPosition().lat(),
+      lng: markers[id].getPosition().lng( )
+    };
+    console.log(latlng);
+    var geocoder = new google.maps.Geocoder;
+    geocoder.geocode({'location': latlng}, function(results, status){
+      var currentMarkerPosition;
+      if (status === 'OK'){
+        if (results[0]){
+
+          currentMarkerPosition = results[0].formatted_address;
+          infowindow.open(map, marker);
+          infowindow.setContent(currentMarkerPosition);
+          document.getElementById(place2html[id]).value=currentMarkerPosition;
+
+
+
+        }
+        else{
+          window.alert('No results found')
+        }
+      }
+
+    })
+    }
+
+
+  function checkThePointsAndShowTheRoute(directionsDisplay, directionsService){
 
 
     if (typeof(originPoint && destinationPoint) != 'undefined'){
@@ -77,13 +124,15 @@ function initMap() {
     document.getElementById('total').innerHTML = total + ' km';
   }
 
-  function setMarker(map, label, position){
+  function setMarker(map, label, position, id){
     var marker = new google.maps.Marker({
       position: position,
       label: label,
       draggable: true,
       map: map
-    })
+    });
+    markers[id] = marker;
+
   }
 
 
