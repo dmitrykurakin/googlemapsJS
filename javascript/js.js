@@ -6,8 +6,8 @@ function initMap() {
 
   //'Perth, WA', 'Adelaide, SA'
 
-  var originPoint = 'Perth, WA';
-  var destinationPoint = 'Adelaide, SA';
+  var originPoint //= 'Perth, WA';
+  var destinationPoint //= 'Adelaide, SA';
 
   var markers = [];
   var infowindow0 = new google.maps.InfoWindow();
@@ -28,7 +28,7 @@ function initMap() {
   });
   console.log('hi');
 
-  checkThePointsAndShowTheRoute(directionsDisplay, directionsService);
+
 
 //set click event to input forms
   var place0=document.getElementById('input0');
@@ -49,6 +49,23 @@ function initMap() {
       reverceGeocode(1, infowindow1);
       })
   }, {once:true});
+
+  var autocomplete0 = new google.maps.places.Autocomplete(
+    document.getElementById('input0')
+  );
+  var autocomplete1 = new google.maps.places.Autocomplete(
+    document.getElementById('input1')
+  );
+
+  autocomplete0.addListener('place_changed', function(){
+    originPoint = autocomplete0.getPlace().formatted_address;
+    checkThePointsAndShowTheRoute(directionsDisplay, directionsService);
+  })
+
+  autocomplete1.addListener('place_changed', function(){
+    destinationPoint = autocomplete1.getPlace().formatted_address;
+    checkThePointsAndShowTheRoute(directionsDisplay, directionsService);
+  })
 
 
 
@@ -115,13 +132,19 @@ function initMap() {
   }
 
   function computeTotalDistance(result) {
+    console.log(originPoint);
     var total = 0;
     var myroute = result.routes[0];
     for (var i = 0; i < myroute.legs.length; i++) {
       total += myroute.legs[i].distance.value;
+      originPoint = myroute.legs[0].start_address;
+      destinationPoint = myroute.legs[i].end_address;
     }
     total = total / 1000;
     document.getElementById('total').innerHTML = total + ' km';
+    document.getElementById('input0').value = originPoint;
+    document.getElementById('input1').value = destinationPoint;
+
   }
 
   function setMarker(map, label, position, id){
