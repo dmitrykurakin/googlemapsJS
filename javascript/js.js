@@ -10,8 +10,15 @@ function initMap() {
   var destinationPoint //= 'Adelaide, SA';
 
   var markers = [];
+
+//here we keep points in array
+  var origDestPoints = [];
+
+
   var infowindow0 = new google.maps.InfoWindow();
   var infowindow1 = new google.maps.InfoWindow();
+
+  var infowindows = [infowindow0, infowindow1];
 
   var place2html = ['input0', 'input1'];
 
@@ -35,6 +42,7 @@ function initMap() {
   place0.addEventListener('click', function(e){
     e.preventDefault();
     setMarker(map, 'A', initialPoint, 0);
+    checkThePointsAndShowTheRoute(directionsDisplay, directionsService);
     markers[0].addListener('dragend', function(){
       reverceGeocode(0, infowindow0);
       })
@@ -45,6 +53,7 @@ function initMap() {
   place1.addEventListener('click', function(e){
     e.preventDefault();
     setMarker(map, 'B', initialPoint, 1);
+      checkThePointsAndShowTheRoute(directionsDisplay, directionsService);
     markers[1].addListener('dragend', function(){
       reverceGeocode(1, infowindow1);
       })
@@ -58,12 +67,12 @@ function initMap() {
   );
 
   autocomplete0.addListener('place_changed', function(){
-    originPoint = autocomplete0.getPlace().formatted_address;
+    origDestPoints[0] = autocomplete0.getPlace().formatted_address;
     checkThePointsAndShowTheRoute(directionsDisplay, directionsService);
   })
 
   autocomplete1.addListener('place_changed', function(){
-    destinationPoint = autocomplete1.getPlace().formatted_address;
+    origDestPoints[1] = autocomplete1.getPlace().formatted_address;
     checkThePointsAndShowTheRoute(directionsDisplay, directionsService);
   })
 
@@ -72,6 +81,7 @@ function initMap() {
 
   //functions
   function reverceGeocode(id, infowindow){
+    var infowindow = infowindows[id];
     var marker = markers[id];
     infowindow.close();
 
@@ -90,6 +100,9 @@ function initMap() {
           infowindow.open(map, marker);
           infowindow.setContent(currentMarkerPosition);
           document.getElementById(place2html[id]).value=currentMarkerPosition;
+          origDestPoints[id]=currentMarkerPosition;
+          console.log(currentMarkerPosition);
+          checkThePointsAndShowTheRoute(directionsDisplay, directionsService);
 
 
 
@@ -106,7 +119,10 @@ function initMap() {
   function checkThePointsAndShowTheRoute(directionsDisplay, directionsService){
 
 
-    if (typeof(originPoint && destinationPoint) != 'undefined'){
+    if (typeof(origDestPoints[0] && origDestPoints[1]) != 'undefined'){
+      markers[0].setMap(null);
+      markers[1].setMap(null);
+
       directionsDisplay.addListener('directions_changed', function() {
         computeTotalDistance(directionsDisplay.getDirections());
       });
@@ -117,8 +133,8 @@ function initMap() {
 
   function displayRoute(service, display) {
     service.route({
-      origin: originPoint,
-      destination: destinationPoint,
+      origin: origDestPoints[0],
+      destination: origDestPoints[1],
       //waypoints: [{location: 'Adelaide, SA'}, {location: 'Broken Hill, NSW'}],
       travelMode: 'DRIVING',
       avoidTolls: true
@@ -155,6 +171,8 @@ function initMap() {
       map: map
     });
     markers[id] = marker;
+    //console.log(marker.getPosition());
+    reverceGeocode(id, infowindows);
 
   }
 
