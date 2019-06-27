@@ -11,6 +11,7 @@
     href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
     crossorigin="anonymous">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 
 
 
@@ -21,6 +22,11 @@
         <div class="col-8">
           <div id="map"></div>
           <div id="inputs" class="col-3">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" id="checkTollRoads" class="custom-control-input">
+              <label class='custom-control-label' for="checkTollRoads">Avoid toll roads</label>
+
+            </div>
             <div>
               <input type="text" class="form-control mb-2" id="input0" placeholder="Type Origin">
             </div>
@@ -77,10 +83,10 @@
              <input type="text" id="mobile" placeholder="type your mobile" class="form-control border border-success mb-2">
              <button type="button" class="btn btn-primary btn-block">Purchase</button>
            </div>
-
           </div>
-
-
+         </div>
+         <div class="alert alert-danger" role="alert" id="tollRoadAlert">
+           <b>WARNING</b><br>There's a toll roads could be at the route.
          </div>
        </div>
       </div>
@@ -96,6 +102,7 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/5078e3a3fb.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
     <script src="/javascript/js.js"></script>
     <script async defer

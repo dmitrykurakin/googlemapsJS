@@ -1,7 +1,7 @@
 function initMap() {
 
 
-  var initialPoint = {lat: -24.345, lng: 134.46};
+  var initialPoint = {lat: 40.661, lng: -73.944};
 
 
   //'Perth, WA', 'Adelaide, SA'
@@ -9,11 +9,16 @@ function initMap() {
   var originPoint //= 'Perth, WA';
   var destinationPoint //= 'Adelaide, SA';
 
+  var numPassengers=2;
+  const pricePerKm=1;
+  var totalDistance;
+
   var markers = [];
+
+  var checkTolls = false;
 
 //here we keep points in array
   var origDestPoints = [];
-
 
   var infowindow0 = new google.maps.InfoWindow();
   var infowindow1 = new google.maps.InfoWindow();
@@ -33,9 +38,6 @@ function initMap() {
     map: map,
     //panel: document.getElementById('right-panel')
   });
-  console.log('hi');
-
-
 
 //set click event to input forms
   var place0=document.getElementById('input0');
@@ -45,8 +47,10 @@ function initMap() {
     checkThePointsAndShowTheRoute(directionsDisplay, directionsService);
     markers[0].addListener('dragend', function(){
       reverceGeocode(0, infowindow0);
+      console.log(origDestPoints[0])
       })
   }, {once:true}
+
   );
 
   var place1=document.getElementById('input1');
@@ -80,6 +84,8 @@ function initMap() {
 
 
   //functions
+
+
   function reverceGeocode(id, infowindow){
     var infowindow = infowindows[id];
     var marker = markers[id];
@@ -89,7 +95,7 @@ function initMap() {
       lat: markers[id].getPosition().lat(),
       lng: markers[id].getPosition().lng( )
     };
-    console.log(latlng);
+
     var geocoder = new google.maps.Geocoder;
     geocoder.geocode({'location': latlng}, function(results, status){
       var currentMarkerPosition;
@@ -101,7 +107,6 @@ function initMap() {
           infowindow.setContent(currentMarkerPosition);
           document.getElementById(place2html[id]).value=currentMarkerPosition;
           origDestPoints[id]=currentMarkerPosition;
-          console.log(currentMarkerPosition);
           checkThePointsAndShowTheRoute(directionsDisplay, directionsService);
 
 
@@ -129,6 +134,7 @@ function initMap() {
       displayRoute(directionsService, directionsDisplay);
     }
     else console.log('no points');
+    console.log(origDestPoints[0]);
   }
 
   function displayRoute(service, display) {
@@ -137,7 +143,7 @@ function initMap() {
       destination: origDestPoints[1],
       //waypoints: [{location: 'Adelaide, SA'}, {location: 'Broken Hill, NSW'}],
       travelMode: 'DRIVING',
-      avoidTolls: true
+      avoidTolls: checkTolls
     }, function(response, status) {
       if (status === 'OK') {
         display.setDirections(response);
@@ -148,19 +154,36 @@ function initMap() {
   }
 
   function computeTotalDistance(result) {
-    console.log(originPoint);
+
     var total = 0;
     var myroute = result.routes[0];
     for (var i = 0; i < myroute.legs.length; i++) {
       total += myroute.legs[i].distance.value;
-      originPoint = myroute.legs[0].start_address;
-      destinationPoint = myroute.legs[i].end_address;
+      origDestPoints[0] = myroute.legs[0].start_address;
+      origDestPoints[1] = myroute.legs[i].end_address;
     }
-    total = total / 1000;
-    document.getElementById('total').innerHTML = total + ' km';
-    document.getElementById('input0').value = originPoint;
-    document.getElementById('input1').value = destinationPoint;
+    totalDistance = total / 1000;
 
+    calculateAndShowPrice()
+
+
+    document.getElementById('showInput0').innerHTML = origDestPoints[0];
+    document.getElementById('showInput1').innerHTML = origDestPoints[1];
+
+
+
+    document.getElementById('total').innerHTML = totalDistance + ' km';
+
+
+    document.getElementById('input0').value = origDestPoints[0];
+    document.getElementById('input1').value = origDestPoints[1];
+
+
+  }
+
+  function calculateAndShowPrice(){
+    currentPrice = totalDistance*numPassengers*pricePerKm;
+    $("#price").html(currentPrice + ' EUR');
   }
 
   function setMarker(map, label, position, id){
@@ -171,10 +194,34 @@ function initMap() {
       map: map
     });
     markers[id] = marker;
-    //console.log(marker.getPosition());
     reverceGeocode(id, infowindows);
 
   }
+
+  //checkTollRoads
+  $('#checkTollRoads').change(function(){
+    checkTolls = $(this).prop('checked');
+    checkThePointsAndShowTheRoute(directionsDisplay, directionsService);
+    $("#tollRoadAlert").toggle("fold", 2000);
+    if(checkTolls){
+
+    }
+    else{
+      $("#tollRoadAlert").show();
+    }
+
+  })
+
+  $('#countPassangers').change(function(){
+    numPassengers = $(this).val();
+    calculateAndShowPrice();
+
+
+  })
+
+
+
+
 
 
 }
