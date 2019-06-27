@@ -81,7 +81,7 @@
            <div class="form-group col-7">
              <input type="email" id="email" placeholder="type your e-mail" class="form-control border border-success mb-2">
              <input type="text" id="mobile" placeholder="type your mobile" class="form-control border border-success mb-2">
-             <button type="button" class="btn btn-primary btn-block">Purchase</button>
+             <button type="button" class="btn btn-primary btn-block" data-toggle='modal' data-target='#makePurchase'>Purchase</button>
            </div>
           </div>
          </div>
@@ -92,7 +92,127 @@
       </div>
     </div>
 
-<span id="total"></span>
+    <!-- modal page-->
+
+    <div class="modal fade" id="makePurchase" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalScrollableTitle">Purchase details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><span id="icon" class="fas fa-bus fa-fw"></span></div>
+              </div>
+              <input type="text" id="sendOrigin" class="form-control border border-success"readonly>
+            </div>
+
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><span id="icon" class="fas fa-bus fa-fw"></span></div>
+              </div>
+              <input type="text" id="sendDestination" class="form-control border border-success" value="123" readonly>
+            </div>
+
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><span id="icon" class="fas fa-ruler fa-fw"></span></div>
+              </div>
+              <input type="text" id="sendDistance" class="form-control border border-success" readonly>
+            </div>
+
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><span id="icon" class="fas fa-calendar-alt fa-fw"></span></div>
+              </div>
+              <input type="text" id="sendDatetimepicker" class="form-control border border-success" value="not filled" readonly>
+            </div>
+
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><span id="icon" class="fas fa-users fa-fw"></span></div>
+              </div>
+              <input type="text" id="sendCountPass" class="form-control border border-success" value="2" readonly>
+            </div>
+
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><span id="icon" class="fas fa-calendar-alt fa-fw"></span></div>
+              </div>
+              <input type="text" id="sendName" class="form-control border border-success" value="not filled" readonly>
+            </div>
+
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><span id="icon" class="fas fa-id-card fa-fw"></span></div>
+              </div>
+              <input type="text" id="sendComments" class="form-control border border-success" value="not filled" readonly>
+            </div>
+
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><span id="icon" class="fas fa-at fa-fw"></span></div>
+              </div>
+              <input type="text" id="sendEmail" class="form-control border border-success" value="not filled" readonly>
+            </div>
+
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><span id="icon" class="fas fa-phone-alt fa-fw"></span></div>
+              </div>
+              <input type="text" id="sendMobile" class="form-control border border-success" value="not filled" readonly>
+            </div>
+
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><span id="icon" class="fas fa-money-bill-alt fa-fw"></span></div>
+              </div>
+              <input type="text" id="sendTollAlert" class="form-control border border-success" value="not filled" readonly>
+            </div>
+
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><span id="icon" class="fas fa-money-bill-alt fa-fw"></span></div>
+              </div>
+              <input type="text" id="sendPrice" class="form-control bg-warning" value="not filled" readonly>
+            </div>
+
+            <input type="hidden" id="sendCheckTolls" name="" value="false">
+
+
+
+
+
+          </div>
+          <div class="modal-footer">
+            <div class="form-row">
+              <div class="col-md">
+                <div class="form-group form-check">
+                  <input type="checkbox" class="form-check-input" id="agreePersonal" required>
+                  <label class="form-check-label" for="agreePersonal">I agree to perform personal data</label>
+                </div>
+                <div class="invalid-feedback">
+                  Please accept the agreement<br>to perform personal data.
+                </div>
+             </div>
+
+
+              <div class="col-md">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-success" id="sendPurchase">Purchase</button>
+              </div>
+            </div>
+
+        </div>
+      </div>
+    </div>
+
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"

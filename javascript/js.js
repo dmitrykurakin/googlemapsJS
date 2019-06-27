@@ -170,9 +170,13 @@ function initMap() {
     document.getElementById('showInput0').innerHTML = origDestPoints[0];
     document.getElementById('showInput1').innerHTML = origDestPoints[1];
 
+    document.getElementById('sendOrigin').value = origDestPoints[0];
+    document.getElementById('sendDestination').value = origDestPoints[1];
+
 
 
     document.getElementById('total').innerHTML = totalDistance + ' km';
+    document.getElementById('sendDistance').value = totalDistance + ' km';
 
 
     document.getElementById('input0').value = origDestPoints[0];
@@ -184,6 +188,7 @@ function initMap() {
   function calculateAndShowPrice(){
     currentPrice = totalDistance*numPassengers*pricePerKm;
     $("#price").html(currentPrice + ' EUR');
+    $("#sendPrice").val(currentPrice + ' EUR')
   }
 
   function setMarker(map, label, position, id){
@@ -204,10 +209,15 @@ function initMap() {
     checkThePointsAndShowTheRoute(directionsDisplay, directionsService);
     $("#tollRoadAlert").toggle("fold", 2000);
     if(checkTolls){
+      $("#sendTollAlert").val('No road toll expected');
+      $("#sendCheckTolls").val(checkTolls)
 
     }
     else{
       $("#tollRoadAlert").show();
+      $("#sendTollAlert").val('Additional charges coud be');
+      $("#sendCheckTolls").val(checkTolls)
+
     }
 
   })
@@ -215,9 +225,42 @@ function initMap() {
   $('#countPassangers').change(function(){
     numPassengers = $(this).val();
     calculateAndShowPrice();
-
-
+    $("#sendCountPass").val(numPassengers);
   })
+
+  $('#datetimepicker').keyup(function(){
+    var currentValue = $(this).val();
+    $("#sendDatetimepicker").val(currentValue);
+  })
+
+  $('#names').keyup(function(){
+    var currentValue = $(this).val();
+    $("#sendName").val(currentValue);
+  })
+
+  $('#comments').keyup(function(){
+    var currentValue = $(this).val();
+    $("#sendComments").val(currentValue);
+  })
+
+  $('#email').keyup(function(){
+    var currentValue = $(this).val();
+    $("#sendEmail").val(currentValue);
+  })
+
+  $('#mobile').keyup(function(){
+    var currentValue = $(this).val();
+    $("#sendMobile").val(currentValue);
+  })
+
+
+
+
+
+
+
+
+
 
 
 
