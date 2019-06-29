@@ -47,10 +47,8 @@ function initMap() {
     checkThePointsAndShowTheRoute(directionsDisplay, directionsService);
     markers[0].addListener('dragend', function(){
       reverceGeocode(0, infowindow0);
-      console.log(origDestPoints[0])
       })
   }, {once:true}
-
   );
 
   var place1=document.getElementById('input1');
@@ -79,13 +77,7 @@ function initMap() {
     origDestPoints[1] = autocomplete1.getPlace().formatted_address;
     checkThePointsAndShowTheRoute(directionsDisplay, directionsService);
   })
-
-
-
-
   //functions
-
-
   function reverceGeocode(id, infowindow){
     var infowindow = infowindows[id];
     var marker = markers[id];
@@ -101,28 +93,21 @@ function initMap() {
       var currentMarkerPosition;
       if (status === 'OK'){
         if (results[0]){
-
           currentMarkerPosition = results[0].formatted_address;
           infowindow.open(map, marker);
           infowindow.setContent(currentMarkerPosition);
           document.getElementById(place2html[id]).value=currentMarkerPosition;
           origDestPoints[id]=currentMarkerPosition;
           checkThePointsAndShowTheRoute(directionsDisplay, directionsService);
-
-
-
         }
         else{
           window.alert('No results found')
         }
       }
-
     })
     }
 
-
   function checkThePointsAndShowTheRoute(directionsDisplay, directionsService){
-
 
     if (typeof(origDestPoints[0] && origDestPoints[1]) != 'undefined'){
       markers[0].setMap(null);
@@ -134,7 +119,6 @@ function initMap() {
       displayRoute(directionsService, directionsDisplay);
     }
     else console.log('no points');
-    console.log(origDestPoints[0]);
   }
 
   function displayRoute(service, display) {
@@ -154,7 +138,6 @@ function initMap() {
   }
 
   function computeTotalDistance(result) {
-
     var total = 0;
     var myroute = result.routes[0];
     for (var i = 0; i < myroute.legs.length; i++) {
@@ -163,9 +146,7 @@ function initMap() {
       origDestPoints[1] = myroute.legs[i].end_address;
     }
     totalDistance = total / 1000;
-
     calculateAndShowPrice()
-
 
     document.getElementById('showInput0').innerHTML = origDestPoints[0];
     document.getElementById('showInput1').innerHTML = origDestPoints[1];
@@ -173,22 +154,18 @@ function initMap() {
     document.getElementById('sendOrigin').value = origDestPoints[0];
     document.getElementById('sendDestination').value = origDestPoints[1];
 
-
-
-    document.getElementById('total').innerHTML = totalDistance + ' km';
-    document.getElementById('sendDistance').value = totalDistance + ' km';
+    document.getElementById('total').innerHTML = totalDistance.toFixed(2) + ' km';
+    document.getElementById('sendDistance').value = totalDistance.toFixed(2) + ' km';
 
 
     document.getElementById('input0').value = origDestPoints[0];
     document.getElementById('input1').value = origDestPoints[1];
-
-
   }
 
   function calculateAndShowPrice(){
     currentPrice = totalDistance*numPassengers*pricePerKm;
-    $("#price").html(currentPrice + ' EUR');
-    $("#sendPrice").val(currentPrice + ' EUR')
+    $("#price").html(currentPrice.toFixed(2) + ' EUR');
+    $("#sendPrice").val(currentPrice.toFixed(2) + ' EUR')
   }
 
   function setMarker(map, label, position, id){
@@ -202,6 +179,12 @@ function initMap() {
     reverceGeocode(id, infowindows);
 
   }
+  //set datetimepicker
+  $('#datetimepicker').datetimepicker({
+    step:15,
+    minDate:0,
+    format: 'd.m.Y H:i'
+  });
 
   //checkTollRoads
   $('#checkTollRoads').change(function(){
@@ -211,15 +194,12 @@ function initMap() {
     if(checkTolls){
       $("#sendTollAlert").val('No road toll expected');
       $("#sendCheckTolls").val(checkTolls)
-
     }
     else{
       $("#tollRoadAlert").show();
       $("#sendTollAlert").val('Additional charges coud be');
       $("#sendCheckTolls").val(checkTolls)
-
     }
-
   })
 
   $('#countPassangers').change(function(){
@@ -228,7 +208,7 @@ function initMap() {
     $("#sendCountPass").val(numPassengers);
   })
 
-  $('#datetimepicker').keyup(function(){
+  $('#datetimepicker').change(function(){
     var currentValue = $(this).val();
     $("#sendDatetimepicker").val(currentValue);
   })
@@ -253,6 +233,24 @@ function initMap() {
     $("#sendMobile").val(currentValue);
   })
 
+//send request to insert.php
+
+  $("#sendRequest").submit(function(event){
+    event.preventDefault();
+
+    $.ajax({
+      type: $(this).attr('method'),
+      url: $(this).attr('action'),
+      data: new FormData(this),
+      contentType: false,
+      processData: false,
+      success: function(data, status){
+        $('#makePurchase').modal('hide');
+        $('#showResult').modal('show');
+        $('#purchaseNumber').html(data);
+      }
+    })
+  })
 
 
 

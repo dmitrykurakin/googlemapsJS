@@ -12,7 +12,7 @@
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
     crossorigin="anonymous">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-
+    <link rel="stylesheet" href="/jquery.datetimepicker.min.css">
 
 
   </head>
@@ -33,7 +33,6 @@
             <div>
               <input type="text" class="form-control mb-2" id="input1" placeholder="Type Destination">
             </div>
-
 
           </div>
        </div>
@@ -94,125 +93,138 @@
 
     <!-- modal page-->
 
-    <div class="modal fade" id="makePurchase" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalScrollableTitle">Purchase details</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
 
-          <div class="modal-body">
-            <div class="input-group mb-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text"><span id="icon" class="fas fa-bus fa-fw"></span></div>
+      <form id="sendRequest" action="/insert.php" method="post">
+        <div class="modal fade" id="makePurchase" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Purchase details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
               </div>
-              <input type="text" id="sendOrigin" class="form-control border border-success"readonly>
-            </div>
 
-            <div class="input-group mb-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text"><span id="icon" class="fas fa-bus fa-fw"></span></div>
-              </div>
-              <input type="text" id="sendDestination" class="form-control border border-success" value="123" readonly>
-            </div>
-
-            <div class="input-group mb-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text"><span id="icon" class="fas fa-ruler fa-fw"></span></div>
-              </div>
-              <input type="text" id="sendDistance" class="form-control border border-success" readonly>
-            </div>
-
-            <div class="input-group mb-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text"><span id="icon" class="fas fa-calendar-alt fa-fw"></span></div>
-              </div>
-              <input type="text" id="sendDatetimepicker" class="form-control border border-success" value="not filled" readonly>
-            </div>
-
-            <div class="input-group mb-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text"><span id="icon" class="fas fa-users fa-fw"></span></div>
-              </div>
-              <input type="text" id="sendCountPass" class="form-control border border-success" value="2" readonly>
-            </div>
-
-            <div class="input-group mb-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text"><span id="icon" class="fas fa-calendar-alt fa-fw"></span></div>
-              </div>
-              <input type="text" id="sendName" class="form-control border border-success" value="not filled" readonly>
-            </div>
-
-            <div class="input-group mb-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text"><span id="icon" class="fas fa-id-card fa-fw"></span></div>
-              </div>
-              <input type="text" id="sendComments" class="form-control border border-success" value="not filled" readonly>
-            </div>
-
-            <div class="input-group mb-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text"><span id="icon" class="fas fa-at fa-fw"></span></div>
-              </div>
-              <input type="text" id="sendEmail" class="form-control border border-success" value="not filled" readonly>
-            </div>
-
-            <div class="input-group mb-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text"><span id="icon" class="fas fa-phone-alt fa-fw"></span></div>
-              </div>
-              <input type="text" id="sendMobile" class="form-control border border-success" value="not filled" readonly>
-            </div>
-
-            <div class="input-group mb-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text"><span id="icon" class="fas fa-money-bill-alt fa-fw"></span></div>
-              </div>
-              <input type="text" id="sendTollAlert" class="form-control border border-success" value="not filled" readonly>
-            </div>
-
-            <div class="input-group mb-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text"><span id="icon" class="fas fa-money-bill-alt fa-fw"></span></div>
-              </div>
-              <input type="text" id="sendPrice" class="form-control bg-warning" value="not filled" readonly>
-            </div>
-
-            <input type="hidden" id="sendCheckTolls" name="" value="false">
-
-
-
-
-
-          </div>
-          <div class="modal-footer">
-            <div class="form-row">
-              <div class="col-md">
-                <div class="form-group form-check">
-                  <input type="checkbox" class="form-check-input" id="agreePersonal" required>
-                  <label class="form-check-label" for="agreePersonal">I agree to perform personal data</label>
+              <div class="modal-body">
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><span id="icon" class="fas fa-bus fa-fw"></span></div>
+                  </div>
+                  <input type="text" id="sendOrigin" class="form-control border border-success" name="sendOrigin" readonly>
                 </div>
-                <div class="invalid-feedback">
-                  Please accept the agreement<br>to perform personal data.
+
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><span id="icon" class="fas fa-bus fa-fw"></span></div>
+                  </div>
+                  <input type="text" id="sendDestination" class="form-control border border-success" name="sendDestination" readonly>
                 </div>
-             </div>
 
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><span id="icon" class="fas fa-ruler fa-fw"></span></div>
+                  </div>
+                  <input type="text" id="sendDistance" class="form-control border border-success" name="sendDistance" readonly>
+                </div>
 
-              <div class="col-md">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-success" id="sendPurchase">Purchase</button>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><span id="icon" class="fas fa-calendar-alt fa-fw"></span></div>
+                  </div>
+                  <input type="text" id="sendDatetimepicker" class="form-control border border-success" name="sendDatetimepicker" value="not filled" readonly>
+                </div>
+
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><span id="icon" class="fas fa-users fa-fw"></span></div>
+                  </div>
+                  <input type="text" id="sendCountPass" class="form-control border border-success" value="2" name="sendCountPass" readonly>
+                </div>
+
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><span id="icon" class="fas fa-calendar-alt fa-fw"></span></div>
+                  </div>
+                  <input type="text" id="sendName" class="form-control border border-success" name="sendName" value="not filled" readonly>
+                </div>
+
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><span id="icon" class="fas fa-id-card fa-fw"></span></div>
+                  </div>
+                  <input type="text" id="sendComments" class="form-control border border-success" name="sendComments" value="not filled" readonly>
+                </div>
+
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><span id="icon" class="fas fa-at fa-fw"></span></div>
+                  </div>
+                  <input type="text" id="sendEmail" class="form-control border border-success" name="sendEmail" value="not filled" readonly>
+                </div>
+
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><span id="icon" class="fas fa-phone-alt fa-fw"></span></div>
+                  </div>
+                  <input type="text" id="sendMobile" class="form-control border border-success" name="sendMobile" value="not filled" readonly>
+                </div>
+
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><span id="icon" class="fas fa-money-bill-alt fa-fw"></span></div>
+                  </div>
+                  <input type="text" id="sendTollAlert" class="form-control border border-success" name="sendTollAlert" value="not filled" readonly>
+                </div>
+
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><span id="icon" class="fas fa-money-bill-alt fa-fw" ></span></div>
+                  </div>
+                  <input type="text" id="sendPrice" class="form-control bg-warning" value="not filled" name="sendPrice" readonly>
+                </div>
+
+                <input type="hidden" id="sendCheckTolls" name="sendCheckTolls" value="false">
               </div>
-            </div>
 
+              <div class="modal-footer">
+                <div class="form-row">
+                  <div class="col-md">
+                    <div class="form-group form-check">
+                      <input type="checkbox" class="form-check-input" id="agreePersonal" required>
+                      <label class="form-check-label" for="agreePersonal">I agree to perform personal data</label>
+                    </div>
+                    <div class="invalid-feedback">
+                      Please accept the agreement<br>to perform personal data.
+                    </div>
+                 </div>
+                  <div class="col-md">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success" id="sendPurchase">Purchase</button>
+                  </div>
+                </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+      </form>
 
-
+        <div class="modal fade" id="showResult" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Thank you</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <span>Your order ID is</span>
+                <span id="purchaseNumber"></span>
+                <span>Our customer service contact you very soon</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -223,8 +235,9 @@
       crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/5078e3a3fb.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-
     <script src="/javascript/js.js"></script>
+    <script src="/javascript/jquery.datetimepicker.full.min.js">
+    </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDIw602Ru-X0Z3cgayM4iwofbSmOSrObU&libraries=places&callback=initMap">
     </script>
