@@ -25,14 +25,25 @@
             <div class="custom-control custom-checkbox">
               <input type="checkbox" id="checkTollRoads" class="custom-control-input">
               <label class='custom-control-label' for="checkTollRoads">Avoid toll roads</label>
+            </div>
 
+            <div class="input-group mb-2">
+              <input type="text" class="form-control" id="input0" placeholder="Type Origin">
+              <div class="input-group-append">
+                <button class="close" type="button" id="clearInput0">
+                  <span>&times</span>
+                </button>
+             </div>
             </div>
-            <div>
-              <input type="text" class="form-control mb-2" id="input0" placeholder="Type Origin">
+
+            <div class="input-group mb-2">
+              <input type="text" class="form-control" id="input1" placeholder="Type Destination">
+            <div class="input-group-append">
+              <button class="close" type="button" id="clearInput1">
+                <span>&times</span>
+              </button>
             </div>
-            <div>
-              <input type="text" class="form-control mb-2" id="input1" placeholder="Type Destination">
-            </div>
+           </div>
 
           </div>
        </div>

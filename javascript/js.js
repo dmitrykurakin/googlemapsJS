@@ -14,6 +14,7 @@ function initMap() {
   var totalDistance;
 
   var markers = [];
+  var labels = ['A','B']
 
   var checkTolls = false;
 
@@ -70,11 +71,16 @@ function initMap() {
 
   autocomplete0.addListener('place_changed', function(){
     origDestPoints[0] = autocomplete0.getPlace().formatted_address;
+    markers[0].setMap(null);
+    geocodeAddress(0);
+
     checkThePointsAndShowTheRoute(directionsDisplay, directionsService);
   })
 
   autocomplete1.addListener('place_changed', function(){
     origDestPoints[1] = autocomplete1.getPlace().formatted_address;
+    markers[1].setMap(null);
+    geocodeAddress(1);
     checkThePointsAndShowTheRoute(directionsDisplay, directionsService);
   })
   //functions
@@ -106,6 +112,22 @@ function initMap() {
       }
     })
     }
+  function geocodeAddress(id){
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({'address': origDestPoints[id]}, function(results, status){
+      if(status === 'OK'){
+        var geocodedCoordsLat = results[0].geometry.location.lat();
+        var geocodedCoordsLng = results[0].geometry.location.lng();
+        var geocodedCoords = {lat: geocodedCoordsLat, lng: geocodedCoordsLng};
+
+        setMarker(map, labels[id], geocodedCoords, id);
+
+      }
+    })
+  }
+
+
+
 
   function checkThePointsAndShowTheRoute(directionsDisplay, directionsService){
 
@@ -179,6 +201,18 @@ function initMap() {
     reverceGeocode(id, infowindows);
 
   }
+
+
+
+
+  $('#clearInput0').click(function(){
+    $('#input0').val('');
+  })
+
+  $('#clearInput1').click(function(){
+    $('#input1').val('');
+  })
+
   //set datetimepicker
   $('#datetimepicker').datetimepicker({
     step:15,
