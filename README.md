@@ -11,7 +11,7 @@ Stack:
 - PHP
 
 Author: Kurakin Dmitry
-e-mail: dmitry.kurakin@gmaol.com
+e-mail: dmitry.kurakin@gmail.com
 
 Just send me a beer if find it useful:
 https://paypal.me/dmitrykurakin?locale.x=ru_RU
